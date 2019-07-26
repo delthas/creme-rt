@@ -1,0 +1,28 @@
+# authentication settings
+oauth:
+  # Consumer API key and secret, get from https://developer.twitter.com/apps
+  # -> keys and tokens -> consumer API keys
+  consumer_api_key: "changeit"
+  consumer_api_secret_key: "changeit"
+  # Access token & access token secret
+  # - either get credentials for the same account as the app:
+  #   get from https://developer.twitter.com/apps
+  #   -> keys and tokens -> consumer API keys
+  # - or get credentials for another account:
+  #   use github.com/delthas/creme-rt/creme-token to generate a token
+  access_token: "changeit"
+  access_token_secret: "changeit"
+# list of users from which to RT the best tweets
+list:
+  # name of the user that owns the list of users
+  owner: "changeit"
+  # name of the list itself
+  name: "changeit"
+# delay in minutes to buffer before checking for RT / votes
+delay: 1440
+# interval in minutes at which to check best tweets
+# at most 1 tweet per account per interval will be retweeted
+interval: 720
+# minimum threshold of popularity (RT + stars count) of tweets
+# any tweet below this value will be ignored
+threshold: 1

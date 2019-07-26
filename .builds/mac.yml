@@ -1,0 +1,25 @@
+image: archlinux
+packages:
+  - git
+  - go
+  - upx
+sources:
+  - https://github.com/delthas/creme-rt.git
+secrets:
+  - 63d7a0ac-2635-4d42-9709-efcd2cf74858 # ssh deploy key
+tasks:
+  - setup: |
+      cd creme-rt
+      git checkout -q $GIT_COMMIT_ID
+  - build: |
+      cd creme-rt
+      GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" -v -o creme-rt .
+      upx creme-rt
+      cd creme-token
+      GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" -v -o creme-token .
+      upx creme-token
+  - deploy: |
+      cd creme-rt
+      ssh -o StrictHostKeyChecking=no -q user@delthas.fr 'mkdir -p /srv/http/blog/creme-rt/mac/'
+      scp -o StrictHostKeyChecking=no -q creme-rt user@delthas.fr:/srv/http/blog/creme-rt/mac/creme-rt
+      scp -o StrictHostKeyChecking=no -q creme-token/creme-token user@delthas.fr:/srv/http/blog/creme-rt/mac/creme-token
